@@ -1,0 +1,42 @@
+pipeline {
+	agent any
+
+	stages {
+		stage('Checkout') {
+			steps {
+				git 'repo-url'
+			}
+		}
+
+	stage('build') {
+		steps {
+            sh 'mvn clean package'
+        }
+    }
+
+    stage('Sonarqube analysis') {
+        steps {
+            sh 'mvn sonar:sonar'
+        }
+    }
+
+    stage('test') {
+        steps {
+            sh 'mvn test'
+        }
+    }
+
+    stage('Docker build') {
+        steps {
+            sh 'docker build -t studydocs/app:latest'
+        }
+    }
+
+    stage('Docker push') {
+        steps {
+            sh 'docker push studydocs/app:latest'
+        }
+    }
+    
+}
+}
