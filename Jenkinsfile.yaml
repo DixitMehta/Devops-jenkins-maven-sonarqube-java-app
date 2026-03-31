@@ -4,31 +4,31 @@ pipeline {
 	stages {
 		stage('Checkout') {
 			steps {
-				git 'https://github.com/DixitMehta/Devops-jenkins-maven-sonarqube-java-app.git'
+				git branch: 'main', url: 'https://github.com/DixitMehta/Devops-jenkins-maven-sonarqube-java-app.git'
 			}
 		}
 
 	stage('build') {
 		steps {
-            sh 'mvn clean package'
+            sh 'mvn spring-boot-app/pom.xml clean package'
         }
     }
 
     stage('Sonarqube analysis') {
         steps {
-            sh 'mvn sonar:sonar'
+            sh 'mvn spring-boot-app/pom.xml sonar:sonar'
         }
     }
 
     stage('test') {
         steps {
-            sh 'mvn test'
+            sh 'mvn spring-boot-app/pom.xml test'
         }
     }
 
     stage('Docker build') {
         steps {
-            sh 'docker build -t studydocs/app:latest'
+            sh 'docker build -t studydocs/app:latest .'
         }
     }
 
