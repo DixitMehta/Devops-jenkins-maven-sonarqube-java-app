@@ -1,3 +1,0 @@
-sed -i 's|image:.*|image: your-dockerhub/app:v1.0.${BUILD_NUMBER}|' deployment.yaml
-git commit -am "Updated image"
-git push
